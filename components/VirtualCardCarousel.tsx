@@ -16,12 +16,12 @@ type Theme = {
 
 const themes: Record<string, Theme> = {
   midnight: {
-    bg: "#0d0d10",
-    text: "#ffffff",
-    subtext: "rgba(255,255,255,0.45)",
-    badgeBg: "rgba(255,255,255,0.10)",
-    badgeText: "rgba(255,255,255,0.75)",
-    glow: "rgba(20,20,30,0.8)",
+    bg: "linear-gradient(135deg, #0f0a00 0%, #1e1500 30%, #3d2c00 60%, #7a5810 85%, #c89820 100%)",
+    text: "#fff8e8",
+    subtext: "rgba(255,235,160,0.5)",
+    badgeBg: "rgba(200,152,32,0.22)",
+    badgeText: "#f5d580",
+    glow: "rgba(180,130,10,0.45)",
   },
   aurora: {
     bg: "#c9ff47",
