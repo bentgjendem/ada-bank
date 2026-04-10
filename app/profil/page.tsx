@@ -29,7 +29,7 @@ function Avatar() {
         fontSize: 30, fontWeight: 800, color: "#f5d580",
         letterSpacing: "-1px",
       }}>
-        AL
+        BG
       </div>
     </div>
   );
@@ -160,12 +160,12 @@ export default function ProfilPage() {
         </div>
 
         <div style={{ fontSize: 28, fontWeight: 900, color: "var(--text)", letterSpacing: "-0.7px", marginBottom: 8 }}>
-          Ada Lovelace
+          Bent Gjendem
         </div>
 
         {/* Handle + QR */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-          <span style={{ fontSize: 14, color: "var(--muted)", fontWeight: 500 }}>@adalovelace</span>
+          <span style={{ fontSize: 14, color: "var(--muted)", fontWeight: 500 }}>@bentgjendem</span>
           <button className="glass-sm press" style={{
             width: 28, height: 28, borderRadius: 8,
             display: "flex", alignItems: "center", justifyContent: "center",

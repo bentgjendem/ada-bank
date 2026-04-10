@@ -1,6 +1,7 @@
 import { transactions } from "@/lib/data";
 import AccountDashboard from "@/components/AccountDashboard";
 import BottomNav from "@/components/BottomNav";
+import Link from "next/link";
 import { Bell, SlidersHorizontal } from "lucide-react";
 
 export default function Home() {
@@ -14,20 +15,42 @@ export default function Home() {
         justifyContent: "space-between",
         alignItems: "center",
       }}>
-        {/* Wordmark */}
-        <div>
-          <div style={{
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "var(--muted)",
-            marginBottom: 2,
-          }}>
-            ada bank
-          </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text)", letterSpacing: "-0.4px" }}>
-            God dag, Ada
+        {/* Avatar + greeting */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <Link href="/profil" style={{ textDecoration: "none", position: "relative", display: "inline-block", flexShrink: 0 }}>
+            {/* Gradient ring */}
+            <div style={{
+              position: "absolute", inset: -2,
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, var(--amber) 0%, var(--teal) 100%)",
+              zIndex: 0,
+            }} />
+            <div style={{
+              position: "relative", zIndex: 1,
+              width: 40, height: 40, borderRadius: "50%",
+              background: "linear-gradient(135deg, #1e1200 0%, #3d2c00 50%, #7a5810 100%)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              border: "2px solid var(--bg)",
+              fontSize: 13, fontWeight: 800, color: "#f5d580",
+              letterSpacing: "-0.5px",
+            }}>
+              BG
+            </div>
+          </Link>
+          <div>
+            <div style={{
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "var(--muted)",
+              marginBottom: 2,
+            }}>
+              ada bank
+            </div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text)", letterSpacing: "-0.4px" }}>
+              God dag, Bent
+            </div>
           </div>
         </div>
 
