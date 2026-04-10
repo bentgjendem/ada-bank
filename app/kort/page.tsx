@@ -1,4 +1,4 @@
-import { virtualCards } from "@/lib/data";
+import { virtualCards, transactions } from "@/lib/data";
 import VirtualCardCarousel from "@/components/VirtualCardCarousel";
 import BottomNav from "@/components/BottomNav";
 import { Plus } from "lucide-react";
@@ -28,7 +28,7 @@ export default function KortPage() {
         </button>
       </div>
 
-      <VirtualCardCarousel cards={virtualCards} />
+      <VirtualCardCarousel cards={virtualCards} transactions={transactions} />
 
       {/* New card CTA */}
       <div style={{ margin: "14px 18px 0" }}>
