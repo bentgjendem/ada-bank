@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { Account, Transaction, accounts, formatAmount } from "@/lib/data";
 import TransactionList from "@/components/TransactionList";
-import { ArrowUpRight, ArrowDownLeft, TrendingUp, QrCode, MoreHorizontal } from "lucide-react";
+import { ArrowUpRight, ArrowDownLeft, TrendingUp, Home, MoreHorizontal } from "lucide-react";
 
 // ── Glow wrapper ─────────────────────────────────────────────────────────────
 
@@ -286,7 +286,7 @@ export default function AccountDashboard({ allTransactions }: { allTransactions:
       <div style={{ display: "flex", gap: 10, margin: "20px 18px 0" }}>
         <QuickAction href="/overfor" icon={ArrowUpRight}  label="Overfør" iconColor="var(--amber)" iconBg="rgba(255,138,46,0.15)" />
         <QuickAction href="/betal"   icon={ArrowDownLeft} label="Betal"   iconColor="var(--teal)"  iconBg="rgba(0,212,176,0.13)" />
-        <QuickAction href="/kort"    icon={QrCode}        label="Skann"   iconColor="var(--text2)" iconBg="rgba(255,255,255,0.07)" />
+        <QuickAction href="/bolig"   icon={Home}          label="Min bolig" iconColor="var(--teal)"  iconBg="rgba(0,212,176,0.13)" />
         <QuickAction href="/"        icon={MoreHorizontal} label="Mer"    iconColor="var(--text2)" iconBg="rgba(255,255,255,0.07)" />
       </div>
 
