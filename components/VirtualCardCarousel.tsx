@@ -48,39 +48,25 @@ const themes: Record<string, Theme> = {
   },
 };
 
-// Accurate Visa wordmark SVG – bold italic geometric letterforms
+// Visa wordmark – Inter 900 italic renders crisply since the font is already loaded
 function VisaLogo({ color }: { color: string }) {
   return (
-    <svg
-      width="68"
-      height="22"
-      viewBox="0 0 68 22"
-      fill="none"
+    <span
       aria-label="Visa"
-      style={{ display: "block" }}
+      style={{
+        fontFamily: "inherit",
+        fontSize: 22,
+        fontWeight: 900,
+        fontStyle: "italic",
+        color,
+        letterSpacing: "-0.5px",
+        lineHeight: 1,
+        userSelect: "none",
+        WebkitUserSelect: "none",
+      }}
     >
-      {/* V */}
-      <path
-        d="M0 1h6.4l5.6 13.6L17.6 1H24L14.4 21H9.6L0 1Z"
-        fill={color}
-      />
-      {/* I */}
-      <path d="M26 1h6v20h-6V1Z" fill={color} />
-      {/* S */}
-      <path
-        d="M44.4 1.4c-1.6-.6-3.8-1-6.4-1-5.2 0-8.8 2.6-8.8 6.3 0 2.8 2.6 4.3 4.6 5.2 2 .9 2.8 1.5 2.8 2.4 0 1.3-1.6 1.9-3.2 1.9-2 0-3.2-.3-5-.9L28 18.8c1.6.7 4.2 1.2 6.8 1.2 5.6 0 9-2.7 9-6.6 0-2.2-1.4-3.9-4.6-5.2-1.8-.9-3-1.4-3-2.4 0-.8.8-1.6 2.8-1.6 1.6 0 2.8.3 3.8.7l.6.2.6-4.7Z"
-        fill={color}
-      />
-      {/* A */}
-      <path
-        d="M55.2 1c1 0 1.8.4 2.2 1.4L68 21h-6.2l-1-3.2h-7.6L52 21h-5.8L54.4 2.4C54.8 1.5 55.2 1 56.2 1h-1ZM55.6 1H57c.8 0 1.4.4 1.8 1.2l3.6 11.6h-7.8l2.8-8.4-.8-4.4Z"
-        fill={color}
-      />
-      <path
-        d="M53.4 13.8h6.4l-1.6-5.6-1.6-4.8-3.2 10.4Z"
-        fill={color}
-      />
-    </svg>
+      VISA
+    </span>
   );
 }
 
@@ -169,25 +155,37 @@ export default function VirtualCardCarousel({ cards }: Props) {
 
         {/* ── Middle: card number (revealed) ── */}
         {revealed && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <div style={{
-              fontFamily: "'Courier New', monospace",
-              fontSize: 15,
-              fontWeight: 700,
-              color: t.text,
-              letterSpacing: "0.18em",
-            }}>
-              {card.fullNumber}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {/* Card number in 4 groups */}
+            <div style={{ display: "flex", gap: 14 }}>
+              {card.fullNumber.split(" ").map((group, i) => (
+                <span key={i} style={{
+                  fontSize: 17,
+                  fontWeight: 600,
+                  color: t.text,
+                  letterSpacing: "0.12em",
+                  fontVariantNumeric: "tabular-nums",
+                  fontFeatureSettings: '"tnum"',
+                }}>
+                  {group}
+                </span>
+              ))}
             </div>
-            <div style={{ display: "flex", gap: 24 }}>
-              <div>
-                <div style={{ fontSize: 9, color: t.subtext, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 2 }}>Utløper</div>
-                <div style={{ fontFamily: "'Courier New', monospace", fontSize: 13, fontWeight: 600, color: t.text }}>{card.expiry}</div>
-              </div>
-              <div>
-                <div style={{ fontSize: 9, color: t.subtext, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 2 }}>CVV</div>
-                <div style={{ fontFamily: "'Courier New', monospace", fontSize: 13, fontWeight: 600, color: t.text }}>{card.cvv}</div>
-              </div>
+            {/* Expiry + CVV */}
+            <div style={{ display: "flex", gap: 28 }}>
+              {[
+                { label: "Utløper", value: card.expiry },
+                { label: "CVV",     value: card.cvv },
+              ].map(({ label, value }) => (
+                <div key={label}>
+                  <div style={{ fontSize: 9, fontWeight: 600, color: t.subtext, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 4 }}>
+                    {label}
+                  </div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: t.text, letterSpacing: "0.1em", fontVariantNumeric: "tabular-nums" }}>
+                    {value}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -240,83 +238,78 @@ export default function VirtualCardCarousel({ cards }: Props) {
       </div>
 
       {/* Card stats */}
-      <div style={{
-        margin: "16px 20px 0",
-        padding: "16px",
-        background: "var(--surface)",
-        borderRadius: 16,
-        border: "1px solid var(--border)",
+      <div className="glass" style={{
+        margin: "14px 18px 0",
+        borderRadius: 20,
+        padding: "18px 20px",
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
         gap: 16,
       }}>
         <div>
-          <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 4 }}>Brukt denne måneden</div>
-          <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }} className="tabular">
-            {formatAmount(card.spentThisMonth)} kr
+          <div style={{ fontSize: 10, fontWeight: 600, color: "var(--muted)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.08em" }}>Brukt denne måneden</div>
+          <div style={{ fontSize: 19, fontWeight: 800, color: "var(--text)" }} className="tabular">
+            {formatAmount(card.spentThisMonth)} <span style={{ fontSize: 13, fontWeight: 500, color: "var(--muted)" }}>kr</span>
           </div>
         </div>
         {card.spendLimit && (
           <div>
-            <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 4 }}>Månedlig grense</div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }} className="tabular">
-              {formatAmount(card.spendLimit)} kr
+            <div style={{ fontSize: 10, fontWeight: 600, color: "var(--muted)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.08em" }}>Månedlig grense</div>
+            <div style={{ fontSize: 19, fontWeight: 800, color: "var(--text)" }} className="tabular">
+              {formatAmount(card.spendLimit)} <span style={{ fontSize: 13, fontWeight: 500, color: "var(--muted)" }}>kr</span>
             </div>
           </div>
         )}
       </div>
 
       {/* Apple Pay */}
-      <div style={{
-        margin: "12px 20px 0",
-        padding: "12px 16px",
-        background: "var(--surface)",
-        borderRadius: 16,
-        border: "1px solid var(--border)",
-        display: "flex", alignItems: "center", gap: 12,
+      <div className="glass-sm" style={{
+        margin: "10px 18px 0",
+        padding: "14px 18px",
+        borderRadius: 18,
+        display: "flex", alignItems: "center", gap: 14,
       }}>
         <div style={{
-          width: 36, height: 36, borderRadius: 10,
-          background: "black",
+          width: 38, height: 38, borderRadius: 11,
+          background: "#000",
           display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 18,
+          fontSize: 20, flexShrink: 0,
         }}>
 
         </div>
-        <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>Apple Pay</div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text)" }}>Apple Pay</div>
           <div style={{ fontSize: 11, color: "var(--muted)" }}>Lagt til i Lommebok</div>
         </div>
-        <div style={{ marginLeft: "auto", fontSize: 11, color: "var(--accent)", fontWeight: 500 }}>Aktiv</div>
+        <div style={{ fontSize: 11, fontWeight: 700, color: "var(--teal)" }}>Aktiv</div>
       </div>
 
       {/* Card management */}
-      <div style={{
-        margin: "12px 20px 0",
-        background: "var(--surface)",
-        border: "1px solid var(--border)",
-        borderRadius: 16,
+      <div className="glass" style={{
+        margin: "10px 18px 0",
+        borderRadius: 20,
         overflow: "hidden",
+        padding: "0 18px",
       }}>
         {[
-          { icon: <Snowflake size={17} style={{ color: "#60a5fa" }} />, bg: "rgba(96,165,250,0.12)", label: "Frys kortet", desc: "Blokker kortet midlertidig" },
-          { icon: <Settings2 size={17} style={{ color: "var(--accent)" }} />, bg: "rgba(123,97,255,0.12)", label: "Bruksgrenser", desc: "Sett daglig og månedlig grense" },
-          { icon: <Lock size={17} style={{ color: "var(--accent2)" }} />, bg: "rgba(0,210,200,0.12)", label: "Sikkerhet", desc: "PIN og transaksjonsvarslinger" },
+          { icon: <Snowflake size={16} style={{ color: "#60a5fa" }} />, bg: "rgba(96,165,250,0.14)", label: "Frys kortet",  desc: "Blokker kortet midlertidig" },
+          { icon: <Settings2 size={16} style={{ color: "var(--amber)" }} />, bg: "rgba(255,138,46,0.13)", label: "Bruksgrenser", desc: "Sett daglig og månedlig grense" },
+          { icon: <Lock size={16} style={{ color: "var(--teal)" }} />, bg: "rgba(0,212,176,0.13)", label: "Sikkerhet",    desc: "PIN og transaksjonsvarslinger" },
         ].map((item, i) => (
-          <button key={item.label} style={{
+          <button key={item.label} className="press" style={{
             width: "100%", display: "flex", alignItems: "center", gap: 14,
-            padding: "14px 18px", background: "none", border: "none",
-            borderBottom: i < 2 ? "1px solid var(--border)" : "none",
+            padding: "15px 0", background: "none", border: "none",
+            borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.06)" : "none",
             cursor: "pointer", textAlign: "left",
           }}>
-            <div style={{ width: 38, height: 38, borderRadius: 11, background: item.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <div style={{ width: 38, height: 38, borderRadius: 12, background: item.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               {item.icon}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text)" }}>{item.label}</div>
-              <div style={{ fontSize: 11, color: "var(--muted)" }}>{item.desc}</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text)" }}>{item.label}</div>
+              <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 2 }}>{item.desc}</div>
             </div>
-            <div style={{ color: "var(--muted)", opacity: 0.4, fontSize: 18 }}>›</div>
+            <span style={{ color: "var(--muted)", opacity: 0.35, fontSize: 20, lineHeight: 1 }}>›</span>
           </button>
         ))}
       </div>
