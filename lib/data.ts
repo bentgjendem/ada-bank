@@ -17,6 +17,8 @@ export type VirtualCard = {
   id: string;
   name: string;
   last4: string;
+  fullNumber: string;
+  cvv: string;
   expiry: string;
   network: "visa";
   theme: "midnight" | "aurora" | "rose" | "ocean";
@@ -362,6 +364,8 @@ export const virtualCards: VirtualCard[] = [
     id: "card_001",
     name: "Dagligkort",
     last4: "4291",
+    fullNumber: "4929 8821 1193 4291",
+    cvv: "374",
     expiry: "12/28",
     network: "visa",
     theme: "midnight",
@@ -373,6 +377,8 @@ export const virtualCards: VirtualCard[] = [
     id: "card_002",
     name: "Netthandel",
     last4: "7832",
+    fullNumber: "4916 3047 5528 7832",
+    cvv: "251",
     expiry: "08/27",
     network: "visa",
     theme: "aurora",
@@ -383,6 +389,8 @@ export const virtualCards: VirtualCard[] = [
     id: "card_003",
     name: "Reisekort",
     last4: "2019",
+    fullNumber: "4532 7761 8840 2019",
+    cvv: "918",
     expiry: "03/29",
     network: "visa",
     theme: "ocean",
