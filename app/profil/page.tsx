@@ -81,7 +81,7 @@ function MenuSection({ items }: { items: MenuItem[] }) {
         <button key={item.label} className="press" style={{
           width: "100%", display: "flex", alignItems: "center", gap: 14,
           padding: "15px 0", background: "none", border: "none",
-          borderBottom: i < items.length - 1 ? "1px solid rgba(255,255,255,0.055)" : "none",
+          borderBottom: i < items.length - 1 ? "1px solid #f0f4fb" : "none",
           cursor: "pointer", textAlign: "left",
         }}>
           <div style={{
@@ -196,8 +196,8 @@ export default function ProfilPage() {
           { icon: Bell,       iconColor: "var(--amber)",  iconBg: "rgba(255,138,46,0.14)",  label: "Innboks", badge: "2" },
           { icon: HelpCircle, iconColor: "var(--teal)",   iconBg: "rgba(0,212,176,0.13)",   label: "Hjelp" },
           { icon: User,       iconColor: "#82AAFF",       iconBg: "rgba(130,170,255,0.13)", label: "Personopplysninger" },
-          { icon: Building2,  iconColor: "var(--text2)",  iconBg: "rgba(255,255,255,0.08)", label: "Kontodetaljer" },
-          { icon: FileText,   iconColor: "var(--text2)",  iconBg: "rgba(255,255,255,0.08)", label: "Dokumenter og utskrifter" },
+          { icon: Building2,  iconColor: "var(--text2)",  iconBg: "rgba(0,0,0,0.05)", label: "Kontodetaljer" },
+          { icon: FileText,   iconColor: "var(--text2)",  iconBg: "rgba(0,0,0,0.05)", label: "Dokumenter og utskrifter" },
           { icon: CreditCard, iconColor: "var(--amber)",  iconBg: "rgba(255,138,46,0.14)",  label: "Abonnement og gebyrer" },
         ]} />
       </div>
@@ -206,7 +206,7 @@ export default function ProfilPage() {
       <div style={{ margin: "0 18px 12px" }}>
         <MenuSection items={[
           { icon: Shield, iconColor: "#60a5fa", iconBg: "rgba(96,165,250,0.14)", label: "Sikkerhet" },
-          { icon: Eye,    iconColor: "var(--text2)", iconBg: "rgba(255,255,255,0.08)", label: "Personvern" },
+          { icon: Eye,    iconColor: "var(--text2)", iconBg: "rgba(0,0,0,0.05)", label: "Personvern" },
         ]} />
       </div>
 

@@ -84,7 +84,7 @@ const catColor: Record<string, { bg: string; fg: string }> = {
   "Alkohol":           { bg: "rgba(200,80,120,0.12)", fg: "#C85078" },
   "Netthandel":        { bg: "rgba(100,160,255,0.15)", fg: "#64A0FF" },
 };
-const fallback = { bg: "rgba(255,255,255,0.08)", fg: "rgba(255,255,255,0.4)" };
+const fallback = { bg: "#f3f4f6", fg: "#6b7280" };
 
 function CardTransactions({ txns }: { txns: Transaction[] }) {
   if (txns.length === 0) {
@@ -116,7 +116,7 @@ function CardTransactions({ txns }: { txns: Transaction[] }) {
                 <Link key={txn.id} href={`/transaksjon/${txn.id}`} style={{
                   display: "flex", alignItems: "center", gap: 14,
                   padding: "13px 14px", textDecoration: "none",
-                  borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.045)" : "none",
+                  borderBottom: i < arr.length - 1 ? "1px solid #f0f4fb" : "none",
                 }}>
                   <div style={{
                     width: 44, height: 44, borderRadius: 14, flexShrink: 0,
@@ -261,7 +261,7 @@ export default function VirtualCardCarousel({ cards, transactions }: Props) {
           <button key={i} onClick={() => switchCard(i)} style={{
             width: i === active ? 24 : 8, height: 8, borderRadius: 4,
             border: "none",
-            background: i === active ? "var(--amber)" : "rgba(255,255,255,0.15)",
+            background: i === active ? "var(--primary)" : "rgba(0,48,135,0.18)",
             cursor: "pointer", transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)", padding: 0,
           }} />
         ))}
@@ -273,23 +273,20 @@ export default function VirtualCardCarousel({ cards, transactions }: Props) {
         <button
           onClick={() => !isFrozen && setRevealed((r) => !r)}
           disabled={isFrozen}
-          className="press"
+          className="glass press"
           style={{
-            flex: 1, border: "none", borderRadius: 18, padding: "14px 8px",
-            background: revealed ? "rgba(255,138,46,0.15)" : "rgba(255,255,255,0.065)",
-            backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
-            boxShadow: revealed ? "inset 0 1px 0 rgba(255,138,46,0.3)" : "inset 0 1px 0 rgba(255,255,255,0.10)",
-            borderWidth: 1, borderStyle: "solid",
-            borderColor: revealed ? "rgba(255,138,46,0.3)" : "rgba(255,255,255,0.08)",
+            flex: 1, borderRadius: 18, padding: "14px 8px",
+            background: revealed ? "rgba(0,48,135,0.08)" : undefined,
+            borderColor: revealed ? "rgba(0,48,135,0.2)" : undefined,
             cursor: isFrozen ? "not-allowed" : "pointer",
             display: "flex", flexDirection: "column", alignItems: "center", gap: 7,
           }}
         >
           {revealed
-            ? <EyeOff size={20} style={{ color: "var(--amber)" }} strokeWidth={2} />
+            ? <EyeOff size={20} style={{ color: "var(--primary)" }} strokeWidth={2} />
             : <Eye    size={20} style={{ color: isFrozen ? "var(--muted)" : "var(--text2)" }} strokeWidth={2} />
           }
-          <span style={{ fontSize: 12, fontWeight: 700, color: revealed ? "var(--amber)" : isFrozen ? "var(--muted)" : "var(--text2)" }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: revealed ? "var(--primary)" : isFrozen ? "var(--muted)" : "var(--text2)" }}>
             Detaljer
           </span>
         </button>
@@ -297,33 +294,26 @@ export default function VirtualCardCarousel({ cards, transactions }: Props) {
         {/* Frys */}
         <button
           onClick={toggleFreeze}
-          className="press"
+          className="glass press"
           style={{
-            flex: 1, border: "none", borderRadius: 18, padding: "14px 8px",
-            background: isFrozen ? "rgba(96,165,250,0.15)" : "rgba(255,255,255,0.065)",
-            backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
-            boxShadow: isFrozen ? "inset 0 1px 0 rgba(96,165,250,0.3)" : "inset 0 1px 0 rgba(255,255,255,0.10)",
-            borderWidth: 1, borderStyle: "solid",
-            borderColor: isFrozen ? "rgba(96,165,250,0.3)" : "rgba(255,255,255,0.08)",
+            flex: 1, borderRadius: 18, padding: "14px 8px",
+            background: isFrozen ? "rgba(37,99,235,0.08)" : undefined,
+            borderColor: isFrozen ? "rgba(37,99,235,0.2)" : undefined,
             cursor: "pointer",
             display: "flex", flexDirection: "column", alignItems: "center", gap: 7,
           }}
         >
-          <Snowflake size={20} style={{ color: isFrozen ? "#60a5fa" : "var(--text2)" }} strokeWidth={2} />
-          <span style={{ fontSize: 12, fontWeight: 700, color: isFrozen ? "#60a5fa" : "var(--text2)" }}>
+          <Snowflake size={20} style={{ color: isFrozen ? "#2563eb" : "var(--text2)" }} strokeWidth={2} />
+          <span style={{ fontSize: 12, fontWeight: 700, color: isFrozen ? "#2563eb" : "var(--text2)" }}>
             {isFrozen ? "Aktiver" : "Frys"}
           </span>
         </button>
 
         {/* Innstillinger */}
         <button
-          className="press"
+          className="glass press"
           style={{
-            flex: 1, border: "none", borderRadius: 18, padding: "14px 8px",
-            background: "rgba(255,255,255,0.065)",
-            backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.10)",
-            borderWidth: 1, borderStyle: "solid", borderColor: "rgba(255,255,255,0.08)",
+            flex: 1, borderRadius: 18, padding: "14px 8px",
             cursor: "pointer",
             display: "flex", flexDirection: "column", alignItems: "center", gap: 7,
           }}
@@ -340,8 +330,8 @@ export default function VirtualCardCarousel({ cards, transactions }: Props) {
             Transaksjoner
           </div>
           <div style={{
-            fontSize: 11, fontWeight: 600, color: "var(--muted)",
-            background: "rgba(255,255,255,0.06)", border: "1px solid var(--border)",
+            fontSize: 11, fontWeight: 700, color: "var(--primary)",
+            background: "rgba(0,48,135,0.08)", border: "1px solid rgba(0,48,135,0.15)",
             borderRadius: 20, padding: "4px 10px",
             letterSpacing: "0.04em", textTransform: "uppercase",
           }}>

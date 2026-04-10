@@ -21,9 +21,9 @@ const catColor: Record<string, { bg: string; fg: string }> = {
 };
 
 const statusConfig = {
-  completed: { label: "Gjennomført", color: "#2ECC9A", icon: CheckCircle2 },
-  pending:   { label: "Venter",      color: "#FFC832", icon: Clock },
-  refunded:  { label: "Refundert",   color: "#00D4B0", icon: RefreshCcw },
+  completed: { label: "Gjennomført", color: "#166534", icon: CheckCircle2 },
+  pending:   { label: "Venter",      color: "#b45309", icon: Clock },
+  refunded:  { label: "Refundert",   color: "#0891b2", icon: RefreshCcw },
 };
 
 export default async function TransactionPage({ params }: { params: Promise<{ id: string }> }) {
@@ -33,7 +33,7 @@ export default async function TransactionPage({ params }: { params: Promise<{ id
 
   const status = statusConfig[txn.status];
   const StatusIcon = status.icon;
-  const colors = catColor[txn.category] ?? { bg: "rgba(255,255,255,0.08)", fg: "var(--text2)" };
+  const colors = catColor[txn.category] ?? { bg: "#f3f4f6", fg: "#6b7280" };
 
   const rows = [
     { label: "Dato og tid",   value: `${formatDate(txn.date)} kl. ${txn.time}` },
@@ -106,7 +106,7 @@ export default async function TransactionPage({ params }: { params: Promise<{ id
           <div key={row.label} style={{
             display: "flex", justifyContent: "space-between", alignItems: "center",
             padding: "16px 0",
-            borderBottom: i < rows.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+            borderBottom: i < rows.length - 1 ? "1px solid #f0f4fb" : "none",
             gap: 16,
           }}>
             <span style={{ fontSize: 13, color: "var(--muted)", fontWeight: 500, flexShrink: 0 }}>{row.label}</span>
@@ -125,7 +125,7 @@ export default async function TransactionPage({ params }: { params: Promise<{ id
         </button>
         <button className="press" style={{
           flex: 1, padding: "16px", borderRadius: 18, border: "none",
-          background: "var(--amber)", color: "white", fontSize: 14, fontWeight: 700, cursor: "pointer",
+          background: "var(--primary)", color: "white", fontSize: 14, fontWeight: 700, cursor: "pointer",
         }}>
           Gjenta betaling
         </button>
