@@ -41,7 +41,7 @@ export default function Home() {
               fontWeight: 600,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: "var(--muted)",
+              color: "var(--text2)",
               marginBottom: 2,
             }}>
               ada bank

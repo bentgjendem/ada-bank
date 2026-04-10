@@ -56,13 +56,13 @@ function CheckingCard({ acc, txns }: { acc: Account; txns: Transaction[] }) {
       <div style={{ padding: "28px 26px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 5 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text2)", marginBottom: 5 }}>
               {acc.name}
             </div>
             <div className="tabular" style={{ fontSize: 54, fontWeight: 800, color: "var(--text)", letterSpacing: "-2px", lineHeight: 1 }}>
               {formatAmount(acc.balance)}
             </div>
-            <div style={{ fontSize: 18, fontWeight: 500, color: "var(--muted)", marginTop: 4 }}>
+            <div style={{ fontSize: 18, fontWeight: 500, color: "var(--text2)", marginTop: 4 }}>
               norske kroner
             </div>
           </div>
@@ -72,16 +72,16 @@ function CheckingCard({ acc, txns }: { acc: Account; txns: Transaction[] }) {
         <div style={{
           display: "flex",
           gap: 12,
-          borderTop: "1px solid rgba(255,255,255,0.07)",
+          borderTop: "1px solid rgba(255,255,255,0.10)",
           paddingTop: 20,
         }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6 }}>Inn april</div>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text2)", marginBottom: 6 }}>Inn april</div>
             <div className="tabular" style={{ fontSize: 17, fontWeight: 700, color: "var(--green)" }}>+{formatAmount(income)}</div>
           </div>
-          <div style={{ width: 1, background: "rgba(255,255,255,0.07)" }} />
+          <div style={{ width: 1, background: "rgba(255,255,255,0.10)" }} />
           <div style={{ flex: 1, paddingLeft: 12 }}>
-            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6 }}>Ut april</div>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text2)", marginBottom: 6 }}>Ut april</div>
             <div className="tabular" style={{ fontSize: 17, fontWeight: 700, color: "var(--text2)" }}>–{formatAmount(thisMonth)}</div>
           </div>
         </div>
@@ -103,13 +103,13 @@ function SavingsCard({ acc, txns }: { acc: Account; txns: Transaction[] }) {
       <div style={{ padding: "28px 26px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 5 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text2)", marginBottom: 5 }}>
               {acc.name}
             </div>
             <div className="tabular" style={{ fontSize: 54, fontWeight: 800, color: "var(--text)", letterSpacing: "-2px", lineHeight: 1 }}>
               {formatAmount(acc.balance)}
             </div>
-            <div style={{ fontSize: 18, fontWeight: 500, color: "var(--muted)", marginTop: 4 }}>
+            <div style={{ fontSize: 18, fontWeight: 500, color: "var(--text2)", marginTop: 4 }}>
               norske kroner
             </div>
           </div>
@@ -138,12 +138,12 @@ function SavingsCard({ acc, txns }: { acc: Account; txns: Transaction[] }) {
           paddingTop: 20,
         }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6 }}>Renter/mnd</div>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text2)", marginBottom: 6 }}>Renter/mnd</div>
             <div className="tabular" style={{ fontSize: 17, fontWeight: 700, color: "var(--teal)" }}>+{formatAmount(monthlyInterest)}</div>
           </div>
-          <div style={{ width: 1, background: "rgba(255,255,255,0.07)" }} />
+          <div style={{ width: 1, background: "rgba(255,255,255,0.10)" }} />
           <div style={{ flex: 1, paddingLeft: 12 }}>
-            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6 }}>Innskudd</div>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text2)", marginBottom: 6 }}>Innskudd</div>
             <div className="tabular" style={{ fontSize: 17, fontWeight: 700, color: "var(--text2)" }}>{formatAmount(totalDeposited)}</div>
           </div>
         </div>
