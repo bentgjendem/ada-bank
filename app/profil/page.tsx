@@ -23,13 +23,11 @@ function Avatar() {
         position: "relative", zIndex: 1,
         width: 88, height: 88,
         borderRadius: "50%",
-        background: "linear-gradient(135deg, #1e1200 0%, #3d2c00 50%, #7a5810 100%)",
-        display: "flex", alignItems: "center", justifyContent: "center",
         border: "2px solid var(--bg)",
-        fontSize: 30, fontWeight: 800, color: "#f5d580",
-        letterSpacing: "-1px",
+        overflow: "hidden",
       }}>
-        BG
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/avatar.png" alt="Bent Gjendem" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </div>
     </div>
   );
