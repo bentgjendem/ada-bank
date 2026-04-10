@@ -2,119 +2,204 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { Account, Transaction, accounts, formatAmount, formatDate, groupByDate } from "@/lib/data";
+import { Account, Transaction, accounts, formatAmount } from "@/lib/data";
 import TransactionList from "@/components/TransactionList";
-import { ArrowUpRight, ArrowDownLeft, TrendingUp, ChevronRight, Clock } from "lucide-react";
+import { ArrowUpRight, ArrowDownLeft, TrendingUp, QrCode, MoreHorizontal } from "lucide-react";
 
-// ── Balance card for each account ──────────────────────────────────────────
+// ── Glow wrapper ─────────────────────────────────────────────────────────────
+
+function GlowCard({
+  children,
+  glowColor,
+}: {
+  children: React.ReactNode;
+  glowColor: string;
+}) {
+  return (
+    <div style={{ position: "relative" }}>
+      {/* Ambient glow behind the glass */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          left: "10%",
+          right: "10%",
+          top: "30%",
+          bottom: "-10%",
+          background: glowColor,
+          filter: "blur(32px)",
+          borderRadius: "50%",
+          opacity: 0.55,
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div className="glass" style={{ borderRadius: 26, position: "relative", zIndex: 1 }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ── Checking card ─────────────────────────────────────────────────────────────
 
 function CheckingCard({ acc, txns }: { acc: Account; txns: Transaction[] }) {
   const thisMonth = txns
     .filter((t) => t.date.startsWith("2026-04"))
-    .reduce((sum, t) => (t.amount < 0 ? sum + Math.abs(t.amount) : sum), 0);
+    .reduce((s, t) => (t.amount < 0 ? s + Math.abs(t.amount) : s), 0);
   const income = txns
     .filter((t) => t.date.startsWith("2026-04") && t.amount > 0)
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((s, t) => s + t.amount, 0);
 
   return (
-    <div style={{
-      padding: "28px 24px",
-      borderRadius: 24,
-      background: "linear-gradient(135deg, #1a1030 0%, #2d1b69 50%, #7b61ff 100%)",
-      boxShadow: "0 20px 60px rgba(123,97,255,0.25), 0 4px 20px rgba(0,0,0,0.4)",
-      position: "relative",
-      overflow: "hidden",
-    }}>
-      <div style={{ position: "absolute", top: -50, right: -50, width: 200, height: 200, borderRadius: "50%", background: "rgba(255,255,255,0.05)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: -80, left: -30, width: 250, height: 250, borderRadius: "50%", background: "rgba(0,210,200,0.06)", pointerEvents: "none" }} />
-      <div style={{ position: "relative" }}>
-        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 8 }}>{acc.name}</div>
-        <div className="tabular" style={{ fontSize: 44, fontWeight: 800, color: "white", letterSpacing: "-1.5px", lineHeight: 1.1 }}>
-          {formatAmount(acc.balance)}
-          <span style={{ fontSize: 22, fontWeight: 500, marginLeft: 6, opacity: 0.6 }}>kr</span>
-        </div>
-        <div style={{ display: "flex", gap: 24, marginTop: 20 }}>
+    <GlowCard glowColor="radial-gradient(ellipse, rgba(255,138,46,0.5) 0%, transparent 70%)">
+      <div style={{ padding: "28px 26px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
           <div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.06em" }}>Inn april</div>
-            <div className="tabular" style={{ fontSize: 14, fontWeight: 700, color: "#4ade80" }}>+{formatAmount(income)} kr</div>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 5 }}>
+              {acc.name}
+            </div>
+            <div className="tabular" style={{ fontSize: 54, fontWeight: 800, color: "var(--text)", letterSpacing: "-2px", lineHeight: 1 }}>
+              {formatAmount(acc.balance)}
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 500, color: "var(--muted)", marginTop: 4 }}>
+              norske kroner
+            </div>
           </div>
-          <div style={{ width: 1, background: "rgba(255,255,255,0.1)" }} />
-          <div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.06em" }}>Ut april</div>
-            <div className="tabular" style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.75)" }}>–{formatAmount(thisMonth)} kr</div>
+        </div>
+
+        {/* Stats row */}
+        <div style={{
+          display: "flex",
+          gap: 12,
+          borderTop: "1px solid rgba(255,255,255,0.07)",
+          paddingTop: 20,
+        }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6 }}>Inn april</div>
+            <div className="tabular" style={{ fontSize: 17, fontWeight: 700, color: "var(--green)" }}>+{formatAmount(income)}</div>
+          </div>
+          <div style={{ width: 1, background: "rgba(255,255,255,0.07)" }} />
+          <div style={{ flex: 1, paddingLeft: 12 }}>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6 }}>Ut april</div>
+            <div className="tabular" style={{ fontSize: 17, fontWeight: 700, color: "var(--text2)" }}>–{formatAmount(thisMonth)}</div>
           </div>
         </div>
       </div>
-    </div>
+    </GlowCard>
   );
 }
 
+// ── Savings card ──────────────────────────────────────────────────────────────
+
 function SavingsCard({ acc, txns }: { acc: Account; txns: Transaction[] }) {
-  // Monthly interest = balance * rate / 12
   const monthlyInterest = Math.round((acc.balance * (acc.interestRate! / 100)) / 12);
   const totalDeposited = txns
     .filter((t) => t.amount > 0 && t.category === "Innskudd")
-    .reduce((sum, t) => sum + t.amount, 0);
+    .reduce((s, t) => s + t.amount, 0);
 
   return (
-    <div style={{
-      padding: "28px 24px",
-      borderRadius: 24,
-      background: "linear-gradient(135deg, #0a2218 0%, #0d4a2a 40%, #16a34a 100%)",
-      boxShadow: "0 20px 60px rgba(22,163,74,0.2), 0 4px 20px rgba(0,0,0,0.4)",
-      position: "relative",
-      overflow: "hidden",
-    }}>
-      {/* Decorative */}
-      <div style={{ position: "absolute", top: -40, right: -40, width: 180, height: 180, borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: -70, left: -20, width: 230, height: 230, borderRadius: "50%", background: "rgba(74,222,128,0.05)", pointerEvents: "none" }} />
+    <GlowCard glowColor="radial-gradient(ellipse, rgba(0,212,176,0.45) 0%, transparent 70%)">
+      <div style={{ padding: "28px 26px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 5 }}>
+              {acc.name}
+            </div>
+            <div className="tabular" style={{ fontSize: 54, fontWeight: 800, color: "var(--text)", letterSpacing: "-2px", lineHeight: 1 }}>
+              {formatAmount(acc.balance)}
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 500, color: "var(--muted)", marginTop: 4 }}>
+              norske kroner
+            </div>
+          </div>
 
-      <div style={{ position: "relative" }}>
-        {/* Interest rate badge */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{acc.name}</div>
+          {/* Interest rate badge */}
           <div style={{
             display: "flex", alignItems: "center", gap: 5,
-            background: "rgba(74,222,128,0.18)",
-            border: "1px solid rgba(74,222,128,0.3)",
-            borderRadius: 20,
-            padding: "4px 10px",
+            background: "rgba(0,212,176,0.14)",
+            border: "1px solid rgba(0,212,176,0.25)",
+            borderRadius: 24,
+            padding: "6px 12px",
+            flexShrink: 0,
           }}>
-            <TrendingUp size={12} style={{ color: "#4ade80" }} />
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#4ade80" }}>
-              {acc.interestRate?.toFixed(2).replace(".", ",")} % rente
+            <TrendingUp size={13} style={{ color: "var(--teal)" }} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--teal)" }}>
+              {acc.interestRate?.toFixed(2).replace(".", ",")} %
             </span>
           </div>
         </div>
 
-        <div className="tabular" style={{ fontSize: 44, fontWeight: 800, color: "white", letterSpacing: "-1.5px", lineHeight: 1.1 }}>
-          {formatAmount(acc.balance)}
-          <span style={{ fontSize: 22, fontWeight: 500, marginLeft: 6, opacity: 0.6 }}>kr</span>
-        </div>
-
-        <div style={{ display: "flex", gap: 24, marginTop: 20 }}>
-          <div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.06em" }}>Renter/mnd</div>
-            <div className="tabular" style={{ fontSize: 14, fontWeight: 700, color: "#4ade80" }}>+{formatAmount(monthlyInterest)} kr</div>
+        {/* Stats row */}
+        <div style={{
+          display: "flex",
+          gap: 12,
+          borderTop: "1px solid rgba(255,255,255,0.07)",
+          paddingTop: 20,
+        }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6 }}>Renter/mnd</div>
+            <div className="tabular" style={{ fontSize: 17, fontWeight: 700, color: "var(--teal)" }}>+{formatAmount(monthlyInterest)}</div>
           </div>
-          <div style={{ width: 1, background: "rgba(255,255,255,0.1)" }} />
-          <div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.06em" }}>Innskudd totalt</div>
-            <div className="tabular" style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.75)" }}>{formatAmount(totalDeposited)} kr</div>
+          <div style={{ width: 1, background: "rgba(255,255,255,0.07)" }} />
+          <div style={{ flex: 1, paddingLeft: 12 }}>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6 }}>Innskudd</div>
+            <div className="tabular" style={{ fontSize: 17, fontWeight: 700, color: "var(--text2)" }}>{formatAmount(totalDeposited)}</div>
           </div>
         </div>
       </div>
-    </div>
+    </GlowCard>
   );
 }
 
-// ── Main swipeable dashboard ────────────────────────────────────────────────
+// ── Quick action button ───────────────────────────────────────────────────────
 
-interface Props {
-  allTransactions: Transaction[];
+function QuickAction({
+  href,
+  icon: Icon,
+  label,
+  iconColor,
+  iconBg,
+}: {
+  href: string;
+  icon: React.ElementType;
+  label: string;
+  iconColor: string;
+  iconBg: string;
+}) {
+  return (
+    <Link href={href} style={{ textDecoration: "none", flex: 1 }}>
+      <div
+        className="glass-sm press"
+        style={{
+          borderRadius: 18,
+          padding: "14px 12px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+          cursor: "pointer",
+        }}
+      >
+        <div style={{
+          width: 44, height: 44,
+          borderRadius: 14,
+          background: iconBg,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <Icon size={20} color={iconColor} strokeWidth={2} />
+        </div>
+        <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text2)", letterSpacing: "0.02em" }}>
+          {label}
+        </span>
+      </div>
+    </Link>
+  );
 }
 
-export default function AccountDashboard({ allTransactions }: Props) {
+// ── Main dashboard ────────────────────────────────────────────────────────────
+
+export default function AccountDashboard({ allTransactions }: { allTransactions: Transaction[] }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -124,69 +209,43 @@ export default function AccountDashboard({ allTransactions }: Props) {
 
   const acc = accounts[activeIdx];
   const txns = allTransactions.filter((t) => t.accountId === acc.id);
-  const total = accounts.length;
 
-  // ── Touch handlers ──
-  function onTouchStart(e: React.TouchEvent) {
-    touchStartX.current = e.touches[0].clientX;
-  }
+  function onTouchStart(e: React.TouchEvent) { touchStartX.current = e.touches[0].clientX; }
   function onTouchMove(e: React.TouchEvent) {
     if (touchStartX.current === null) return;
-    const delta = e.touches[0].clientX - touchStartX.current;
-    setDragOffset(delta);
+    setDragOffset(e.touches[0].clientX - touchStartX.current);
     setIsDragging(true);
   }
-  function onTouchEnd() {
-    commit();
-    touchStartX.current = null;
-  }
+  function onTouchEnd() { commit(); touchStartX.current = null; }
 
-  // ── Mouse handlers (desktop) ──
-  function onMouseDown(e: React.MouseEvent) {
-    mouseStartX.current = e.clientX;
-    setIsDragging(false);
-  }
+  function onMouseDown(e: React.MouseEvent) { mouseStartX.current = e.clientX; }
   function onMouseMove(e: React.MouseEvent) {
     if (mouseStartX.current === null) return;
-    const delta = e.clientX - mouseStartX.current;
-    if (Math.abs(delta) > 5) setIsDragging(true);
-    setDragOffset(delta);
+    const d = e.clientX - mouseStartX.current;
+    if (Math.abs(d) > 5) setIsDragging(true);
+    setDragOffset(d);
   }
-  function onMouseUp() {
-    commit();
-    mouseStartX.current = null;
-  }
-  function onMouseLeave() {
-    if (mouseStartX.current !== null) {
-      commit();
-      mouseStartX.current = null;
-    }
-  }
+  function onMouseUp() { commit(); mouseStartX.current = null; }
+  function onMouseLeave() { if (mouseStartX.current !== null) { commit(); mouseStartX.current = null; } }
 
   function commit() {
-    const THRESHOLD = 50;
-    if (dragOffset < -THRESHOLD && activeIdx < total - 1) {
-      setActiveIdx((i) => i + 1);
-    } else if (dragOffset > THRESHOLD && activeIdx > 0) {
-      setActiveIdx((i) => i - 1);
-    }
+    if (dragOffset < -50 && activeIdx < accounts.length - 1) setActiveIdx((i) => i + 1);
+    else if (dragOffset > 50 && activeIdx > 0) setActiveIdx((i) => i - 1);
     setDragOffset(0);
     setIsDragging(false);
   }
 
-  const cardStyle = {
-    margin: "0 20px",
-    userSelect: "none" as const,
-    cursor: isDragging ? "grabbing" : "grab",
-    transform: `translateX(${dragOffset * 0.3}px)`,
-    transition: isDragging ? "none" : "transform 0.35s cubic-bezier(0.34,1.56,0.64,1)",
-  };
-
   return (
     <>
-      {/* Swipeable card area */}
+      {/* ── Swipeable balance card ── */}
       <div
-        style={cardStyle}
+        style={{
+          margin: "4px 18px 0",
+          userSelect: "none",
+          cursor: isDragging ? "grabbing" : "grab",
+          transform: `translateX(${dragOffset * 0.28}px)`,
+          transition: isDragging ? "none" : "transform 0.4s cubic-bezier(0.34,1.56,0.64,1)",
+        }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -201,74 +260,55 @@ export default function AccountDashboard({ allTransactions }: Props) {
         }
       </div>
 
-      {/* Dot indicators */}
+      {/* Dots */}
       <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 14 }}>
         {accounts.map((_, i) => (
           <button
             key={i}
             onClick={() => setActiveIdx(i)}
             style={{
-              width: i === activeIdx ? 20 : 6,
+              width: i === activeIdx ? 22 : 6,
               height: 6,
               borderRadius: 3,
               border: "none",
-              background: i === activeIdx ? "white" : "rgba(255,255,255,0.2)",
+              background: i === activeIdx
+                ? (i === 0 ? "var(--amber)" : "var(--teal)")
+                : "rgba(255,255,255,0.15)",
               cursor: "pointer",
-              transition: "all 0.3s ease",
+              transition: "all 0.35s cubic-bezier(0.34,1.56,0.64,1)",
               padding: 0,
             }}
           />
         ))}
       </div>
 
-      {/* Quick actions */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, margin: "16px 20px 0" }}>
-        <Link href="/overfor" style={{ textDecoration: "none" }}>
-          <div style={{
-            padding: "16px 20px",
-            background: "var(--surface)",
-            border: "1px solid var(--border)",
-            borderRadius: 18,
-            display: "flex", alignItems: "center", gap: 12,
-          }}>
-            <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(123,97,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <ArrowUpRight size={20} style={{ color: "var(--accent)" }} />
-            </div>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text)" }}>Overfør</div>
-              <div style={{ fontSize: 11, color: "var(--muted)" }}>Til konto</div>
-            </div>
-          </div>
-        </Link>
-
-        <Link href="/betal" style={{ textDecoration: "none" }}>
-          <div style={{
-            padding: "16px 20px",
-            background: "var(--surface)",
-            border: "1px solid var(--border)",
-            borderRadius: 18,
-            display: "flex", alignItems: "center", gap: 12,
-          }}>
-            <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(0,210,200,0.12)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <ArrowDownLeft size={20} style={{ color: "var(--accent2)" }} />
-            </div>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text)" }}>Betal</div>
-              <div style={{ fontSize: 11, color: "var(--muted)" }}>Regning / KID</div>
-            </div>
-          </div>
-        </Link>
+      {/* ── Quick actions ── */}
+      <div style={{ display: "flex", gap: 10, margin: "20px 18px 0" }}>
+        <QuickAction href="/overfor" icon={ArrowUpRight}  label="Overfør" iconColor="var(--amber)" iconBg="rgba(255,138,46,0.15)" />
+        <QuickAction href="/betal"   icon={ArrowDownLeft} label="Betal"   iconColor="var(--teal)"  iconBg="rgba(0,212,176,0.13)" />
+        <QuickAction href="/kort"    icon={QrCode}        label="Skann"   iconColor="var(--text2)" iconBg="rgba(255,255,255,0.07)" />
+        <QuickAction href="/"        icon={MoreHorizontal} label="Mer"    iconColor="var(--text2)" iconBg="rgba(255,255,255,0.07)" />
       </div>
 
-      {/* Transactions header */}
-      <div style={{ padding: "24px 20px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text)" }}>Transaksjoner</div>
-        <div style={{ fontSize: 12, color: "var(--muted)" }}>{acc.name}</div>
+      {/* ── Transactions ── */}
+      <div style={{ padding: "28px 22px 8px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontSize: 19, fontWeight: 800, color: "var(--text)", letterSpacing: "-0.3px" }}>
+          Transaksjoner
+        </div>
+        <div style={{
+          fontSize: 11, fontWeight: 600, color: "var(--muted)",
+          background: "rgba(255,255,255,0.06)",
+          border: "1px solid var(--border)",
+          borderRadius: 20,
+          padding: "4px 10px",
+          letterSpacing: "0.04em",
+          textTransform: "uppercase",
+        }}>
+          {acc.name}
+        </div>
       </div>
 
-      <div style={{ marginTop: 12 }}>
-        <TransactionList transactions={txns} />
-      </div>
+      <TransactionList transactions={txns} />
     </>
   );
 }

@@ -1,214 +1,131 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { transactions, formatAmount, formatDate } from "@/lib/data";
-import { ArrowLeft, MapPin, CreditCard, Clock, CheckCircle2, RefreshCcw } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Clock, RefreshCcw } from "lucide-react";
 
-export default async function TransactionPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+const catColor: Record<string, { bg: string; fg: string }> = {
+  "Dagligvarer":       { bg: "rgba(255,138,46,0.18)", fg: "#FF8A2E" },
+  "Underholdning":     { bg: "rgba(100,160,255,0.15)", fg: "#64A0FF" },
+  "Inntekt":           { bg: "rgba(0,212,176,0.15)",  fg: "#00D4B0" },
+  "Drivstoff":         { bg: "rgba(255,80,50,0.15)",  fg: "#FF5032" },
+  "Transport":         { bg: "rgba(130,170,255,0.13)", fg: "#82AAFF" },
+  "Helse":             { bg: "rgba(46,204,154,0.15)", fg: "#2ECC9A" },
+  "Kafé & Restaurant": { bg: "rgba(255,200,50,0.15)", fg: "#FFC832" },
+  "Klær":              { bg: "rgba(255,120,170,0.15)", fg: "#FF78AA" },
+  "Alkohol":           { bg: "rgba(200,80,120,0.12)", fg: "#C85078" },
+  "Sparing":           { bg: "rgba(0,212,176,0.15)",  fg: "#00D4B0" },
+  "Netthandel":        { bg: "rgba(100,160,255,0.15)", fg: "#64A0FF" },
+  "Renter":            { bg: "rgba(0,212,176,0.13)",  fg: "#00D4B0" },
+  "Innskudd":          { bg: "rgba(0,212,176,0.13)",  fg: "#00D4B0" },
+  "Uttak":             { bg: "rgba(255,91,91,0.13)",  fg: "#FF5B5B" },
+};
+
+const statusConfig = {
+  completed: { label: "Gjennomført", color: "#2ECC9A", icon: CheckCircle2 },
+  pending:   { label: "Venter",      color: "#FFC832", icon: Clock },
+  refunded:  { label: "Refundert",   color: "#00D4B0", icon: RefreshCcw },
+};
+
+export default async function TransactionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const txn = transactions.find((t) => t.id === id);
   if (!txn) notFound();
 
-  const statusConfig = {
-    completed: { label: "Gjennomført", color: "#22c55e", icon: CheckCircle2 },
-    pending: { label: "Venter", color: "#f59e0b", icon: Clock },
-    refunded: { label: "Refundert", color: "#7b61ff", icon: RefreshCcw },
-  };
-
   const status = statusConfig[txn.status];
   const StatusIcon = status.icon;
+  const colors = catColor[txn.category] ?? { bg: "rgba(255,255,255,0.08)", fg: "var(--text2)" };
+
+  const rows = [
+    { label: "Dato og tid",   value: `${formatDate(txn.date)} kl. ${txn.time}` },
+    txn.description && { label: "Beskrivelse",  value: txn.description },
+    txn.cardLast4   && { label: "Kort",          value: `Visa •••• ${txn.cardLast4}` },
+    txn.location    && { label: "Sted",           value: txn.location },
+    { label: "Kategori",     value: txn.category },
+    { label: "Referanse",    value: txn.id.toUpperCase() },
+  ].filter(Boolean) as { label: string; value: string }[];
 
   return (
-    <div style={{ minHeight: "100dvh", background: "var(--bg)", paddingBottom: 40 }}>
-
-      {/* Top bar */}
-      <div style={{
-        padding: "56px 20px 20px",
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-      }}>
-        <Link
-          href="/"
-          style={{
-            width: 40, height: 40,
-            borderRadius: 12,
-            background: "var(--surface)",
-            border: "1px solid var(--border)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            textDecoration: "none",
-            color: "var(--text)",
-            flexShrink: 0,
-          }}
-        >
-          <ArrowLeft size={20} />
+    <div style={{ minHeight: "100dvh", paddingBottom: 40 }}>
+      {/* Back bar */}
+      <div style={{ padding: "58px 22px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+        <Link href="/" className="glass-sm press" style={{
+          width: 40, height: 40, borderRadius: 13,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          textDecoration: "none", color: "var(--text)", border: "none",
+        }}>
+          <ArrowLeft size={19} strokeWidth={2} />
         </Link>
-        <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text)" }}>Transaksjonsdetaljer</div>
+        <span style={{ fontSize: 17, fontWeight: 700, color: "var(--text)" }}>Detaljer</span>
       </div>
 
-      {/* Hero */}
-      <div style={{
-        margin: "0 20px",
-        padding: "32px 24px",
-        background: "var(--surface)",
-        border: "1px solid var(--border)",
-        borderRadius: 24,
-        textAlign: "center",
-      }}>
-        <div style={{
-          width: 72,
-          height: 72,
-          borderRadius: 22,
-          background: "var(--surface2)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 36,
-          margin: "0 auto 16px",
+      {/* Hero card */}
+      <div className="glass" style={{ margin: "0 18px", borderRadius: 26, padding: "32px 24px", textAlign: "center" }}>
+        {/* Icon with glow */}
+        <div style={{ position: "relative", display: "inline-block", marginBottom: 20 }}>
+          <div style={{
+            position: "absolute", inset: -8,
+            background: colors.bg,
+            borderRadius: "50%",
+            filter: "blur(12px)",
+            zIndex: 0,
+          }} />
+          <div style={{
+            position: "relative", zIndex: 1,
+            width: 72, height: 72, borderRadius: 22,
+            background: colors.bg,
+            border: `1px solid ${colors.fg}30`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 34,
+          }}>
+            {txn.icon}
+          </div>
+        </div>
+
+        <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text)", marginBottom: 4 }}>{txn.merchant}</div>
+        <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 24, fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase" }}>{txn.category}</div>
+
+        <div className="tabular" style={{
+          fontSize: 52, fontWeight: 800, letterSpacing: "-2px",
+          color: txn.amount > 0 ? "var(--green)" : "var(--text)",
+          lineHeight: 1,
         }}>
-          {txn.icon}
-        </div>
-
-        <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text)", marginBottom: 4 }}>
-          {txn.merchant}
-        </div>
-        <div style={{ fontSize: 13, color: "var(--muted)", marginBottom: 24 }}>
-          {txn.category}
-        </div>
-
-        <div
-          className="tabular"
-          style={{
-            fontSize: 48,
-            fontWeight: 800,
-            letterSpacing: "-1.5px",
-            color: txn.amount > 0 ? "#4ade80" : "var(--text)",
-            lineHeight: 1,
-          }}
-        >
           {txn.amount > 0 ? "+" : "–"}{formatAmount(txn.amount)}
-          <span style={{ fontSize: 24, fontWeight: 500, marginLeft: 6, opacity: 0.6 }}>kr</span>
+          <span style={{ fontSize: 22, fontWeight: 500, marginLeft: 6, opacity: 0.5 }}>kr</span>
         </div>
 
-        <div style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 6,
-          marginTop: 16,
-          padding: "6px 14px",
-          borderRadius: 20,
-          background: `${status.color}18`,
-          border: `1px solid ${status.color}30`,
-        }}>
+        {/* Status badge */}
+        <div style={{ marginTop: 20, display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: `${status.color}16`, border: `1px solid ${status.color}28` }}>
           <StatusIcon size={13} style={{ color: status.color }} />
-          <span style={{ fontSize: 13, fontWeight: 600, color: status.color }}>
-            {status.label}
-          </span>
+          <span style={{ fontSize: 12, fontWeight: 700, color: status.color }}>{status.label}</span>
         </div>
       </div>
 
-      {/* Details */}
-      <div style={{
-        margin: "16px 20px 0",
-        background: "var(--surface)",
-        border: "1px solid var(--border)",
-        borderRadius: 20,
-        overflow: "hidden",
-      }}>
-        {[
-          {
-            icon: "📅",
-            label: "Dato og tid",
-            value: `${formatDate(txn.date)} kl. ${txn.time}`,
-          },
-          txn.description && {
-            icon: "📝",
-            label: "Beskrivelse",
-            value: txn.description,
-          },
-          txn.cardLast4 && {
-            icon: "💳",
-            label: "Kort benyttet",
-            value: `Visa •••• ${txn.cardLast4}`,
-          },
-          txn.location && {
-            icon: "📍",
-            label: "Sted",
-            value: txn.location,
-          },
-          {
-            icon: "🏷️",
-            label: "Kategori",
-            value: txn.category,
-          },
-          {
-            icon: "🔖",
-            label: "Referanse",
-            value: txn.id.toUpperCase(),
-          },
-        ]
-          .filter(Boolean)
-          .map((row, i, arr) => {
-            const item = row as { icon: string; label: string; value: string };
-            return (
-              <div
-                key={item.label}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 14,
-                  padding: "16px 20px",
-                  borderBottom: i < arr.length - 1 ? "1px solid var(--border)" : "none",
-                }}
-              >
-                <div style={{ fontSize: 20, width: 32, textAlign: "center", flexShrink: 0 }}>
-                  {item.icon}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 2, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-                    {item.label}
-                  </div>
-                  <div style={{ fontSize: 14, color: "var(--text)", fontWeight: 500 }}>
-                    {item.value}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+      {/* Detail rows */}
+      <div className="glass" style={{ margin: "12px 18px 0", borderRadius: 22, overflow: "hidden", padding: "0 20px" }}>
+        {rows.map((row, i) => (
+          <div key={row.label} style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            padding: "16px 0",
+            borderBottom: i < rows.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+            gap: 16,
+          }}>
+            <span style={{ fontSize: 13, color: "var(--muted)", fontWeight: 500, flexShrink: 0 }}>{row.label}</span>
+            <span style={{ fontSize: 13, color: "var(--text)", fontWeight: 600, textAlign: "right" }}>{row.value}</span>
+          </div>
+        ))}
       </div>
 
       {/* Actions */}
-      <div style={{
-        margin: "16px 20px 0",
-        display: "flex",
-        gap: 12,
-      }}>
-        <button style={{
-          flex: 1,
-          padding: "14px",
-          borderRadius: 16,
-          background: "var(--surface)",
-          border: "1px solid var(--border)",
-          color: "var(--text)",
-          fontSize: 14,
-          fontWeight: 600,
-          cursor: "pointer",
+      <div style={{ display: "flex", gap: 10, margin: "12px 18px 0" }}>
+        <button className="glass-sm press" style={{
+          flex: 1, padding: "16px", borderRadius: 18, border: "none",
+          color: "var(--text2)", fontSize: 14, fontWeight: 600, cursor: "pointer",
         }}>
           Bestrid
         </button>
-        <button style={{
-          flex: 1,
-          padding: "14px",
-          borderRadius: 16,
-          background: "rgba(123,97,255,0.15)",
-          border: "1px solid rgba(123,97,255,0.3)",
-          color: "var(--accent)",
-          fontSize: 14,
-          fontWeight: 600,
-          cursor: "pointer",
+        <button className="press" style={{
+          flex: 1, padding: "16px", borderRadius: 18, border: "none",
+          background: "var(--amber)", color: "white", fontSize: 14, fontWeight: 700, cursor: "pointer",
         }}>
           Gjenta betaling
         </button>
