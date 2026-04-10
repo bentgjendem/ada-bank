@@ -1,5 +1,6 @@
 export type Transaction = {
   id: string;
+  accountId: string;
   merchant: string;
   category: string;
   amount: number; // negative = expense, positive = income
@@ -30,6 +31,7 @@ export type Account = {
   iban: string;
   balance: number;
   currency: string;
+  interestRate?: number; // annual %, e.g. 4.0
 };
 
 export const account: Account = {
@@ -40,9 +42,22 @@ export const account: Account = {
   currency: "NOK",
 };
 
+export const savingsAccount: Account = {
+  id: "acc_002",
+  name: "Sparekonto",
+  iban: "NO5486011117952",
+  balance: 106500,
+  currency: "NOK",
+  interestRate: 4.0,
+};
+
+export const accounts: Account[] = [account, savingsAccount];
+
 export const transactions: Transaction[] = [
+  // --- Brukskonto (acc_001) ---
   {
     id: "txn_001",
+    accountId: "acc_001",
     merchant: "Rema 1000",
     category: "Dagligvarer",
     amount: -487,
@@ -56,6 +71,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_002",
+    accountId: "acc_001",
     merchant: "Spotify",
     category: "Underholdning",
     amount: -109,
@@ -68,6 +84,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_003",
+    accountId: "acc_001",
     merchant: "Lønn – april",
     category: "Inntekt",
     amount: 52500,
@@ -79,6 +96,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_004",
+    accountId: "acc_001",
     merchant: "Esso Skøyen",
     category: "Drivstoff",
     amount: -1023,
@@ -92,6 +110,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_005",
+    accountId: "acc_001",
     merchant: "T-bane og buss",
     category: "Transport",
     amount: -390,
@@ -105,6 +124,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_006",
+    accountId: "acc_001",
     merchant: "Netflix",
     category: "Underholdning",
     amount: -179,
@@ -117,6 +137,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_007",
+    accountId: "acc_001",
     merchant: "Apotek 1",
     category: "Helse",
     amount: -298,
@@ -130,6 +151,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_008",
+    accountId: "acc_001",
     merchant: "Tim Wendelboe",
     category: "Kafé & Restaurant",
     amount: -68,
@@ -143,6 +165,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_009",
+    accountId: "acc_001",
     merchant: "Coop Extra",
     category: "Dagligvarer",
     amount: -643,
@@ -156,6 +179,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_010",
+    accountId: "acc_001",
     merchant: "H&M",
     category: "Klær",
     amount: -899,
@@ -169,6 +193,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_011",
+    accountId: "acc_001",
     merchant: "Vinmonopolet",
     category: "Alkohol",
     amount: -389,
@@ -182,6 +207,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_012",
+    accountId: "acc_001",
     merchant: "Overføring til sparing",
     category: "Sparing",
     amount: -5000,
@@ -193,6 +219,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_013",
+    accountId: "acc_001",
     merchant: "Pizzabakeren",
     category: "Kafé & Restaurant",
     amount: -249,
@@ -206,6 +233,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_014",
+    accountId: "acc_001",
     merchant: "SATS",
     category: "Helse",
     amount: -449,
@@ -218,6 +246,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "txn_015",
+    accountId: "acc_001",
     merchant: "Amazon",
     category: "Netthandel",
     amount: -1249,
@@ -227,6 +256,104 @@ export const transactions: Transaction[] = [
     description: "Netthandel",
     cardLast4: "7832",
     status: "pending",
+  },
+
+  // --- Sparekonto (acc_002) ---
+  {
+    id: "sav_001",
+    accountId: "acc_002",
+    merchant: "Rentegodtgjørelse",
+    category: "Renter",
+    amount: 355,
+    date: "2026-04-01",
+    time: "07:00",
+    icon: "📈",
+    description: "Månedlig renteopptjening – 4,00% p.a.",
+    status: "completed",
+  },
+  {
+    id: "sav_002",
+    accountId: "acc_002",
+    merchant: "Overføring fra brukskonto",
+    category: "Innskudd",
+    amount: 5000,
+    date: "2026-04-01",
+    time: "07:01",
+    icon: "💸",
+    description: "Fast månedlig sparing",
+    status: "completed",
+  },
+  {
+    id: "sav_003",
+    accountId: "acc_002",
+    merchant: "Rentegodtgjørelse",
+    category: "Renter",
+    amount: 338,
+    date: "2026-03-01",
+    time: "07:00",
+    icon: "📈",
+    description: "Månedlig renteopptjening – 4,00% p.a.",
+    status: "completed",
+  },
+  {
+    id: "sav_004",
+    accountId: "acc_002",
+    merchant: "Overføring fra brukskonto",
+    category: "Innskudd",
+    amount: 5000,
+    date: "2026-03-01",
+    time: "07:01",
+    icon: "💸",
+    description: "Fast månedlig sparing",
+    status: "completed",
+  },
+  {
+    id: "sav_005",
+    accountId: "acc_002",
+    merchant: "Uttak til brukskonto",
+    category: "Uttak",
+    amount: -15000,
+    date: "2026-03-14",
+    time: "11:30",
+    icon: "🏧",
+    description: "Uttak til brukskonto – feriepenger",
+    status: "completed",
+  },
+  {
+    id: "sav_006",
+    accountId: "acc_002",
+    merchant: "Rentegodtgjørelse",
+    category: "Renter",
+    amount: 372,
+    date: "2026-02-01",
+    time: "07:00",
+    icon: "📈",
+    description: "Månedlig renteopptjening – 4,00% p.a.",
+    status: "completed",
+  },
+  {
+    id: "sav_007",
+    accountId: "acc_002",
+    merchant: "Overføring fra brukskonto",
+    category: "Innskudd",
+    amount: 5000,
+    date: "2026-02-01",
+    time: "07:01",
+    icon: "💸",
+    description: "Fast månedlig sparing",
+    status: "completed",
+  },
+  {
+    id: "sav_008",
+    accountId: "acc_002",
+    merchant: "Overføring fra brukskonto",
+    category: "Innskudd",
+    amount: 10000,
+    date: "2026-01-15",
+    time: "14:22",
+    icon: "💸",
+    description: "Ekstra sparing – bonusutbetaling",
+    status: "completed",
   },
 ];
 
