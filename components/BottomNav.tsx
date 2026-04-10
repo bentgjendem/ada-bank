@@ -50,8 +50,8 @@ export default function BottomNav() {
                 padding: "8px 18px",
                 borderRadius: 24,
                 textDecoration: "none",
-                background: active ? "rgba(255,255,255,0.1)" : "transparent",
-                boxShadow: active ? "inset 0 1px 0 rgba(255,255,255,0.15)" : "none",
+                background: active ? "rgba(0,48,135,0.09)" : "transparent",
+                boxShadow: "none",
                 transition: "background 0.2s ease",
                 minWidth: 64,
               }}
@@ -59,12 +59,12 @@ export default function BottomNav() {
               <Icon
                 size={21}
                 strokeWidth={active ? 2.4 : 1.7}
-                style={{ color: active ? "var(--text)" : "var(--muted)", transition: "color 0.2s" }}
+                style={{ color: active ? "var(--primary)" : "var(--muted)", transition: "color 0.2s" }}
               />
               <span style={{
                 fontSize: 10,
                 fontWeight: active ? 700 : 500,
-                color: active ? "var(--text)" : "var(--muted)",
+                color: active ? "var(--primary)" : "var(--muted)",
                 letterSpacing: "0.02em",
                 transition: "color 0.2s",
               }}>

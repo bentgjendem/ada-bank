@@ -23,7 +23,7 @@ function Avatar() {
         position: "relative", zIndex: 1,
         width: 88, height: 88,
         borderRadius: "50%",
-        border: "2px solid var(--bg)",
+        border: "2px solid #ffffff",
         overflow: "hidden",
       }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -132,11 +132,11 @@ export default function ProfilPage() {
         <button className="press" style={{
           display: "flex", alignItems: "center", gap: 6,
           padding: "9px 16px", borderRadius: 20,
-          background: "linear-gradient(135deg, rgba(255,138,46,0.2) 0%, rgba(0,212,176,0.15) 100%)",
-          border: "1px solid rgba(255,138,46,0.3)",
-          color: "var(--amber)", fontSize: 13, fontWeight: 700, cursor: "pointer",
+          background: "rgba(0,48,135,0.09)",
+          border: "1px solid rgba(0,48,135,0.2)",
+          color: "var(--primary)", fontSize: 13, fontWeight: 700, cursor: "pointer",
         }}>
-          <Zap size={14} fill="currentColor" />
+          <Zap size={14} strokeWidth={2} />
           Oppgrader
         </button>
       </div>

@@ -28,7 +28,7 @@ export default function Home() {
             <div style={{
               position: "relative", zIndex: 1,
               width: 40, height: 40, borderRadius: "50%",
-              border: "2px solid var(--bg)",
+              border: "2px solid #ffffff",
               overflow: "hidden",
             }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}

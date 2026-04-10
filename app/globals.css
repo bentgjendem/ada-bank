@@ -1,101 +1,50 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #07070d;
-  --amber: #FF8A2E;
-  --teal: #00D4B0;
-  --green: #2ECC9A;
-  --red: #FF5B5B;
-  --text: #F2F2F8;
-  --text2: #A8A8BC;
-  --muted: #55556A;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-hi: rgba(255, 255, 255, 0.14);
+  --bg:      #ffffff;
+  --text:    #1a1a2e;
+  --text2:   #374151;
+  --muted:   #6b7280;
+  --border:  #e5eaf5;
+  --surface: #f8faff;
 
-  /* Keep legacy vars for components not yet migrated */
-  --surface: rgba(255, 255, 255, 0.055);
-  --surface2: rgba(255, 255, 255, 0.09);
-  --accent: var(--amber);
-  --accent2: var(--teal);
+  --primary: #003087;
+  --amber:   #e07000;
+  --teal:    #0891b2;
+  --green:   #166534;
+  --red:     #b91c1c;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html {
-  background: var(--bg);
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(160deg, #dbeafe 0%, #e0f2fe 40%, #f0f9ff 100%);
+  background-attachment: fixed;
+  min-height: 100dvh;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
-body { min-height: 100dvh; }
-
-/* ── Liquid Glass ─────────────────────────────────────── */
+/* ── Card styles (replaces dark glass) ────────────────────────── */
 .glass {
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.09) 0%,
-    rgba(255, 255, 255, 0.04) 100%
-  );
-  backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
-  -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow:
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-    0 12px 40px rgba(0, 0, 0, 0.35),
-    0 2px 8px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(0, 48, 135, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .glass-sm {
-  background: rgba(255, 255, 255, 0.065);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  background: var(--surface);
+  border: 1px solid #e8edf5;
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(32px) saturate(160%);
-  -webkit-backdrop-filter: blur(32px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    0 2px 8px rgba(0, 0, 0, 0.3);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(0, 48, 135, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
-/* ── Animations ───────────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position:  200% 0; }
-}
+/* ── Press feedback ─────────────────────────────────────────── */
+.press { transition: transform 0.15s, opacity 0.15s; }
+.press:active { transform: scale(0.96); opacity: 0.82; }
 
-.fade-up { animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.fade-up-2 { animation: fadeUp 0.5s 0.07s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.fade-up-3 { animation: fadeUp 0.5s 0.14s cubic-bezier(0.16, 1, 0.3, 1) both; }
-
-/* ── Utilities ────────────────────────────────────────── */
-::-webkit-scrollbar { width: 0; }
-
-.tabular {
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum";
-}
-
-.press {
-  transition: transform 0.12s ease, opacity 0.12s ease;
-}
-.press:active {
-  transform: scale(0.96);
-  opacity: 0.85;
-}
+/* ── Tabular nums ───────────────────────────────────────────── */
+.tabular { font-variant-numeric: tabular-nums; }
