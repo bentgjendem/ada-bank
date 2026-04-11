@@ -148,13 +148,13 @@ export default function ProfilPage() {
         {/* Premium badge */}
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 5,
-          background: "linear-gradient(135deg, rgba(200,152,32,0.25), rgba(255,200,50,0.15))",
-          border: "1px solid rgba(200,152,32,0.35)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.10))",
+          border: "1px solid rgba(255,255,255,0.30)",
           borderRadius: 20, padding: "5px 12px",
           marginTop: 14, marginBottom: 16,
         }}>
-          <Zap size={12} style={{ color: "#f5d580" }} fill="#f5d580" />
-          <span style={{ fontSize: 12, fontWeight: 700, color: "#f5d580" }}>Premium</span>
+          <Zap size={12} style={{ color: "#ffffff" }} fill="#ffffff" />
+          <span style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>Premium</span>
         </div>
 
         <div style={{ fontSize: 28, fontWeight: 900, color: "var(--text)", letterSpacing: "-0.7px", marginBottom: 8 }}>
@@ -177,8 +177,8 @@ export default function ProfilPage() {
       {/* Promo cards */}
       <div style={{ display: "flex", gap: 12, margin: "0 18px 20px" }}>
         <PromoCard
-          icon={<Zap size={20} style={{ color: "#f5d580" }} fill="#f5d580" />}
-          accent="#c89820"
+          icon={<Zap size={20} style={{ color: "#ffffff" }} fill="#ffffff" />}
+          accent="#ffffff"
           title="Premium"
           subtitle="Fornyes 15. mai 2026"
         />
