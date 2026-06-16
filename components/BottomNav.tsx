@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ArrowLeftRight, CreditCard, User } from "lucide-react";
+import { Home, ArrowLeftRight, Wallet, User } from "lucide-react";
 
 const nav = [
-  { href: "/",       icon: Home,           label: "Hjem"   },
-  { href: "/overfor",icon: ArrowLeftRight,  label: "Overfør"},
-  { href: "/kort",   icon: CreditCard,      label: "Kort"   },
-  { href: "/profil", icon: User,            label: "Profil" },
+  { href: "/",        icon: Home,          label: "Hjem"    },
+  { href: "/overfor", icon: ArrowLeftRight, label: "Overfør" },
+  { href: "/betal",   icon: Wallet,         label: "Betal"   },
+  { href: "/profil",  icon: User,           label: "Profil"  },
 ];
 
 export default function BottomNav() {
@@ -50,7 +50,7 @@ export default function BottomNav() {
                 padding: "8px 18px",
                 borderRadius: 24,
                 textDecoration: "none",
-                background: active ? "rgba(0,48,135,0.09)" : "transparent",
+                background: active ? "rgba(124,92,255,0.16)" : "transparent",
                 boxShadow: "none",
                 transition: "background 0.2s ease",
                 minWidth: 64,

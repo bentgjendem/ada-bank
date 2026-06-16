@@ -21,7 +21,7 @@ const catColor: Record<string, { bg: string; fg: string }> = {
   "Innskudd":            { bg: "rgba(0,212,176,0.13)",  fg: "#00D4B0" },
   "Uttak":               { bg: "rgba(255,91,91,0.13)",  fg: "#FF5B5B" },
 };
-const fallbackColor = { bg: "#f3f4f6", fg: "#6b7280" };
+const fallbackColor = { bg: "rgba(255,255,255,0.06)", fg: "rgba(255,255,255,0.55)" };
 
 export default function TransactionList({ transactions }: { transactions: Transaction[] }) {
   const grouped = groupByDate(transactions);
@@ -59,7 +59,7 @@ export default function TransactionList({ transactions }: { transactions: Transa
                     padding: "13px 14px",
                     textDecoration: "none",
                     borderBottom: i < arr.length - 1
-                      ? "1px solid #f0f4fb"
+                      ? "1px solid var(--border)"
                       : "none",
                   }}
                 >

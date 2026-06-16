@@ -1,50 +1,61 @@
 @import "tailwindcss";
 
 :root {
-  --bg:      #ffffff;
-  --text:    #1a1a2e;
-  --text2:   #374151;
-  --muted:   #6b7280;
-  --border:  #e5eaf5;
-  --surface: #f8faff;
+  /* ── Dark Revolut base ───────────────────────────────────────── */
+  --bg:      #08080c;
+  --bg2:     #101019;
+  --text:    #ffffff;
+  --text2:   rgba(255, 255, 255, 0.74);
+  --muted:   rgba(255, 255, 255, 0.46);
+  --border:  rgba(255, 255, 255, 0.09);
+  --surface: rgba(255, 255, 255, 0.045);
 
-  --primary: #003087;
-  --amber:   #e07000;
-  --teal:    #0891b2;
-  --green:   #166534;
-  --red:     #b91c1c;
+  /* ── Accents ─────────────────────────────────────────────────── */
+  --primary: #7c5cff;   /* electric violet */
+  --accent:  #2b8bff;   /* electric blue   */
+  --amber:   #ff9f0a;
+  --teal:    #2dd4bf;
+  --green:   #2ee6a8;   /* mint – positive amounts */
+  --red:     #ff5b6e;
 }
 
 html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(160deg, #dbeafe 0%, #e0f2fe 40%, #f0f9ff 100%);
+  background:
+    radial-gradient(1100px 620px at 82% -12%, rgba(124, 92, 255, 0.22), transparent 60%),
+    radial-gradient(900px 520px at -12% 8%, rgba(43, 139, 255, 0.16), transparent 58%),
+    var(--bg);
   background-attachment: fixed;
   min-height: 100dvh;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Card styles (replaces dark glass) ────────────────────────── */
+/* ── Glass surfaces ───────────────────────────────────────────── */
 .glass {
-  background: #ffffff;
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 24px rgba(0, 48, 135, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.40);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
 }
 
 .glass-sm {
-  background: var(--surface);
-  border: 1px solid #e8edf5;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-pill {
-  background: #ffffff;
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 24px rgba(0, 48, 135, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+  background: rgba(16, 16, 25, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
 }
 
-/* ── Press feedback ─────────────────────────────────────────── */
+/* ── Press feedback ─────────────────────────────────────────────── */
 .press { transition: transform 0.15s, opacity 0.15s; }
 .press:active { transform: scale(0.96); opacity: 0.82; }
 
-/* ── Tabular nums ───────────────────────────────────────────── */
+/* ── Tabular nums ───────────────────────────────────────────────── */
 .tabular { font-variant-numeric: tabular-nums; }

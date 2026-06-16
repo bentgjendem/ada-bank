@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { Account, Transaction, accounts, formatAmount } from "@/lib/data";
 import TransactionList from "@/components/TransactionList";
-import { ArrowUpRight, ArrowDownLeft, TrendingUp, Home, MoreHorizontal } from "lucide-react";
+import { ArrowUpRight, ArrowDownLeft, TrendingUp, PiggyBank, MoreHorizontal } from "lucide-react";
 
 // ── Account card ──────────────────────────────────────────────
 
@@ -18,10 +18,11 @@ function CheckingCard({ acc, txns }: { acc: Account; txns: Transaction[] }) {
 
   return (
     <div style={{
-      background: "linear-gradient(135deg, #001a57 0%, #003087 60%, #0052cc 100%)",
+      background: "linear-gradient(140deg, #3a1d8a 0%, #241a5e 52%, #120c2e 100%)",
       borderRadius: 26,
       padding: "28px 26px 24px",
-      boxShadow: "0 8px 32px rgba(0, 48, 135, 0.25)",
+      boxShadow: "0 16px 46px rgba(124, 92, 255, 0.30)",
+      border: "1px solid rgba(255,255,255,0.08)",
       position: "relative",
       overflow: "hidden",
     }}>
@@ -67,10 +68,11 @@ function SavingsCard({ acc, txns }: { acc: Account; txns: Transaction[] }) {
 
   return (
     <div style={{
-      background: "linear-gradient(135deg, #0c4a6e 0%, #0369a1 60%, #0891b2 100%)",
+      background: "linear-gradient(140deg, #0a5c63 0%, #0a3b52 52%, #07212e 100%)",
       borderRadius: 26,
       padding: "28px 26px 24px",
-      boxShadow: "0 8px 32px rgba(8, 145, 178, 0.25)",
+      boxShadow: "0 16px 46px rgba(45, 212, 191, 0.26)",
+      border: "1px solid rgba(255,255,255,0.08)",
       position: "relative",
       overflow: "hidden",
     }}>
@@ -209,7 +211,7 @@ export default function AccountDashboard({ allTransactions }: { allTransactions:
         {accounts.map((_, i) => (
           <button key={i} onClick={() => setActiveIdx(i)} style={{
             width: i === activeIdx ? 22 : 6, height: 6, borderRadius: 3, border: "none",
-            background: i === activeIdx ? (i === 0 ? "var(--primary)" : "var(--teal)") : "rgba(0,48,135,0.18)",
+            background: i === activeIdx ? (i === 0 ? "var(--primary)" : "var(--teal)") : "rgba(255,255,255,0.18)",
             cursor: "pointer", transition: "all 0.35s cubic-bezier(0.34,1.56,0.64,1)", padding: 0,
           }} />
         ))}
@@ -217,10 +219,10 @@ export default function AccountDashboard({ allTransactions }: { allTransactions:
 
       {/* Quick actions */}
       <div style={{ display: "flex", gap: 10, margin: "20px 18px 0" }}>
-        <QuickAction href="/overfor" icon={ArrowUpRight}   label="Overfør"   iconColor="var(--primary)" iconBg="rgba(0,48,135,0.10)" />
-        <QuickAction href="/betal"   icon={ArrowDownLeft}  label="Betal"     iconColor="var(--teal)"    iconBg="rgba(8,145,178,0.12)" />
-        <QuickAction href="/bolig"   icon={Home}           label="Min bolig" iconColor="var(--teal)"    iconBg="rgba(8,145,178,0.12)" />
-        <QuickAction href="/"        icon={MoreHorizontal} label="Mer"       iconColor="var(--muted)"   iconBg="rgba(0,0,0,0.06)" />
+        <QuickAction href="/overfor" icon={ArrowUpRight}   label="Overfør" iconColor="#b9a4ff" iconBg="rgba(124,92,255,0.18)" />
+        <QuickAction href="/betal"   icon={ArrowDownLeft}  label="Betal"   iconColor="#7fd0ff" iconBg="rgba(43,139,255,0.18)" />
+        <QuickAction href="/overfor" icon={PiggyBank}      label="Spar"    iconColor="#5ff0cf" iconBg="rgba(45,212,191,0.18)" />
+        <QuickAction href="/"        icon={MoreHorizontal} label="Mer"     iconColor="var(--text2)" iconBg="rgba(255,255,255,0.08)" />
       </div>
 
       {/* Transactions header */}
@@ -229,8 +231,8 @@ export default function AccountDashboard({ allTransactions }: { allTransactions:
           Transaksjoner
         </div>
         <div style={{
-          fontSize: 11, fontWeight: 700, color: "var(--primary)",
-          background: "rgba(0,48,135,0.08)", border: "1px solid rgba(0,48,135,0.15)",
+          fontSize: 11, fontWeight: 700, color: "#b9a4ff",
+          background: "rgba(124,92,255,0.14)", border: "1px solid rgba(124,92,255,0.28)",
           borderRadius: 20, padding: "4px 10px",
           letterSpacing: "0.04em", textTransform: "uppercase",
         }}>

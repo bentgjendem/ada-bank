@@ -81,7 +81,7 @@ function MenuSection({ items }: { items: MenuItem[] }) {
         <button key={item.label} className="press" style={{
           width: "100%", display: "flex", alignItems: "center", gap: 14,
           padding: "15px 0", background: "none", border: "none",
-          borderBottom: i < items.length - 1 ? "1px solid #f0f4fb" : "none",
+          borderBottom: i < items.length - 1 ? "1px solid var(--border)" : "none",
           cursor: "pointer", textAlign: "left",
         }}>
           <div style={{
